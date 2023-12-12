@@ -7,7 +7,7 @@
 		// The name of this plugin.
 		internal const string NAME = "Dissonance Lag Fix";
 		// The version of this plugin.
-		internal const string VERSION = "0.1";
+		internal const string VERSION = "1.0";
 
 		public static readonly string Guid = GUID;
 		public static readonly string Name = NAME;
