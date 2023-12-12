@@ -1,0 +1,42 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <LangVersion>latest</LangVersion>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <LethalCompanyPath>$(UserProfile)\Projects\Unity\Lethal Company Debug</LethalCompanyPath>
+    <StartAction>Program</StartAction>
+    <StartProgram>$(LethalCompanyPath)\Lethal Company.exe</StartProgram>
+    <GenerateAssemblyInfo>False</GenerateAssemblyInfo>
+    <Deterministic>False</Deterministic>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <DebugType>full</DebugType>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <AssemblyReferenceTabs>TAB_ASSEMBLY_EXTENSIONS</AssemblyReferenceTabs>
+  </PropertyGroup>
+  <PropertyGroup>
+    <RestoreSources>$(RestoreSources);https://api.nuget.org/v3/index.json;https://nuget.bepinex.dev/v3/index.json</RestoreSources>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblySearchPaths>$(AssemblySearchPaths);$(LethalCompanyPath)/Lethal Company_Data/Managed;</AssemblySearchPaths>
+    <AssemblySearchPaths>$(AssemblySearchPaths);$(LethalCompanyPath)/Lethal Company_Data/Plugins</AssemblySearchPaths>
+    <AssemblySearchPaths>$(AssemblySearchPaths);$(LethalCompanyPath)/BepinEx/plugins</AssemblySearchPaths>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="BepInEx.AssemblyPublicizer.MSBuild" Version="0.4.1" PrivateAssets="all" />
+    <PackageReference Include="BepInEx.Analyzers" Version="1.*" IncludeAssets="compile" PrivateAssets="all" ExcludeAssets="runtime" />
+    <PackageReference Include="BepInEx.BaseLib" Version="5.*" IncludeAssets="compile" ExcludeAssets="runtime" />
+    <PackageReference Include="HarmonyX" Version="2.10.*" IncludeAssets="compile" ExcludeAssets="runtime" />
+    <PackageReference Include="UnityEngine.Modules" Version="2022.3.9" IncludeAssets="compile" ExcludeAssets="runtime" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="DissonanceVoip" Publicize="true"/>
+  </ItemGroup>
+  <Target Name="CreateMonoDebugSymbols" AfterTargets="build">
+    <Exec Command="for /f &quot;usebackq delims=|&quot; %25%25f in (`dir /b *.dll`) do &quot;$(ProjectDir)lib\pdb2mdb.exe&quot; &quot;%25%25f&quot;" WorkingDirectory="$(OutputPath)" />
+  </Target>
+  <PropertyGroup>
+    <PostBuildEvent>
+      rd "$(LethalCompanyPath)\BepinEx\plugins\vsout_$(AssemblyName)"
+      mklink /J "$(LethalCompanyPath)\BepinEx\plugins\vsout_$(AssemblyName)" .
+    </PostBuildEvent>
+  </PropertyGroup>
+</Project>
