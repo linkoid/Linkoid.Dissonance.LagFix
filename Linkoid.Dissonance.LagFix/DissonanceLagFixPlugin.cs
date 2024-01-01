@@ -9,7 +9,9 @@ namespace Linkoid.Dissonance.LagFix
 	{
 		private void Awake()
 		{
-			Logs.SetLogLevel(LogCategory.Recording, DissonanceLogLevel.Error);
+		        Logs.SetLogLevel(LogCategory.Recording, DissonanceLogLevel.Error);
+		        Logs.SetLogLevel(LogCategory.Playback, DissonanceLogLevel.Error);
+		        Logs.SetLogLevel(LogCategory.Network, DissonanceLogLevel.Error);
 		}
 	}
 }
